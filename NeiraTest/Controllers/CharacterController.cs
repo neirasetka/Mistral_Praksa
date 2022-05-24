@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NeiraTest.DTOs.Character;
 using NeiraTest.Models;
 using NeiraTest.Services;
 
@@ -9,12 +10,6 @@ namespace NeiraTest.Controllers
     [ApiController]
     public class CharacterController : ControllerBase
     {
-        private static List<Character> characters = new List<Character>
-        {
-            new Character(),
-            new Character{Name="Sam"}
-        };
-
         private readonly ICharacterService _characterService;
 
         public CharacterController(ICharacterService characterService)
@@ -22,15 +17,44 @@ namespace NeiraTest.Controllers
             _characterService = characterService;
         }
          
-        [HttpGet]
-        public async Task<ActionResult<List<Character>>> Get()
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDTO>>>> Get()
         {
-            return Ok(await _characterService.GetCharacters());
+            return Ok(await _characterService.GetAllCharacters());
         }
-        public async Task<ActionResult<List<Character>>> AddCharacter(Character newCharacter)
+       
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDTO>>>> GetSingle(int id)
         {
-            characters.Add(newCharacter);
-            return Ok(await _characterService.GetCharacters());
+            return Ok(await _characterService.GetCharactersById(id));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDTO>>>> AddCharacter(AddCharacterDTO newCharacter)
+        {
+            return Ok(await _characterService.AddCharacter(newCharacter));
+        }
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<GetCharacterDTO>>> UpdateCharacter(UpdateCharacterDTO updatedCharacter)
+        {
+            var response = await _characterService.UpdateCharacter(updatedCharacter);
+            //return Ok(await _characterService.UpdateCharacter(updatedCharacter));
+
+            if(response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDTO>>>> DeleteCharacter(int id)
+        {
+            var response = await _characterService.DeleteCharacter(id);
+            if(response.Data==null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
     }
 }
