@@ -5,7 +5,7 @@ namespace NeiraTest.Services
 {
     public interface ICharacterService
     {
-        Task<ServiceResponse<List<GetCharacterDTO>>> GetAllCharacters();
+        Task<ServiceResponse<List<GetCharacterDTO>>> GetAllCharacters(int userId);
         Task<ServiceResponse<List<GetCharacterDTO>>> GetCharactersById(int Id);
         Task<ServiceResponse<List<GetCharacterDTO>>> AddCharacter(AddCharacterDTO newCharacter); 
         Task<ServiceResponse<List<GetCharacterDTO>>> UpdateCharacter(UpdateCharacterDTO updatedCharacter);
