@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NeiraTest.Data;
-using NeiraTest.Services;
+using NeiraTest.Services.CharacterService;
+using NeiraTest.Services.WeaponService;
 using OpenXmlPowerTools;
 using Swashbuckle.AspNetCore.Filters;
 using System.Configuration;
@@ -25,6 +26,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IWeaponService, WeaponService>();
 
 builder.Services.AddDbContext<DataContext>(options=>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NeiraTest.DTOs.Character;
 using NeiraTest.Models;
-using NeiraTest.Services;
+using NeiraTest.Services.CharacterService;
 using System.Security.Claims;
 
 namespace NeiraTest.Controllers
@@ -21,10 +21,10 @@ namespace NeiraTest.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<GetCharacterDTO>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDTO>>>> GetAllCharacters(int id)
         {
             //we can get all the characters of this specific user
-            int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            //int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
             return Ok(await _characterService.GetAllCharacters(id));
         }
        
@@ -61,5 +61,11 @@ namespace NeiraTest.Controllers
             }
             return Ok(response);
         }
+        [HttpPost("Skill")]
+        public async Task<ActionResult<ServiceResponse<GetCharacterDTO>>> AddCharacterSkill(AddCharacterSkillDTO newCharacterSkill)
+        {
+            return Ok(await _characterService.AddCharacterSkill(newCharacterSkill));
+        }
+
     }
 }
