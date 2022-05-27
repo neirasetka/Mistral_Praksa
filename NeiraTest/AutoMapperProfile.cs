@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NeiraTest.DTOs.Character;
+using NeiraTest.DTOs.Fight;
 using NeiraTest.DTOs.Skill;
 using NeiraTest.DTOs.Weapon;
 using NeiraTest.Models;
@@ -14,6 +15,7 @@ namespace NeiraTest
             CreateMap<AddCharacterDTO, Character>();
             CreateMap<Weapon, GetWeaponDTO>();
             CreateMap<Skill, GetSkillDTO>();
+            CreateMap<Character, HighScoreDTO>();
         }
     }
 }

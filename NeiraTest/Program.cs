@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NeiraTest.Data;
 using NeiraTest.Services.CharacterService;
+using NeiraTest.Services.FightService;
 using NeiraTest.Services.WeaponService;
 using OpenXmlPowerTools;
 using Swashbuckle.AspNetCore.Filters;
@@ -28,6 +29,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IWeaponService, WeaponService>();
+builder.Services.AddScoped<IFightService, FightService>();
 
 builder.Services.AddDbContext<DataContext>(options=>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
